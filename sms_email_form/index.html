@@ -17,15 +17,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
       rel="stylesheet"
     />
-    <!--
-    intl-tel-input
-    for more information see https://www.twilio.com/blog/international-phone-number-input-html-javascript
-    -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <style>
       body {
         margin: 0;
@@ -148,6 +139,18 @@
         left: calc(50% - 131px / 2);
       }
     </style>
+    <!--
+      intl-tel-input
+      for more information see https://www.twilio.com/blog/international-phone-number-input-html-javascript
+    -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"
+      async
+    ></script>
   </head>
   <body>
     <div class="center-modal">
@@ -208,6 +211,8 @@
       </form>
     </div>
     <script>
+      var ONESIGNAL_PLAYER_API_URL = "https://onesignal.com/api/v1/players";
+      var ONESIGNAL_APP_ID = "00000000-0000-0000-0000-000000000000"; // Replace you own app-id here
       // See documetation on creating a new player:
       // https://documentation.onesignal.com/reference/add-a-device
       function createEmailPlayer(emailAddress) {
@@ -218,18 +223,17 @@
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            app_id: "00000000-0000-0000-0000-000000000000", // Replace you own app-id here
+            app_id: ONESIGNAL_APP_ID,
             device_type: 11,
             identifier: emailAddress,
           }),
         };
-        fetch("https://onesignal.com/api/v1/players", emailOptions)
+        fetch(ONESIGNAL_PLAYER_API_URL, emailOptions)
           .then((response) => response.json())
           .then((response) => console.log(response))
           .catch((err) => console.error(err));
       }
       function createSmsPlayer(phoneNumber) {
-        debugger;
         var smsOptions = {
           method: "POST",
           headers: {
@@ -237,12 +241,12 @@
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            app_id: "00000000-0000-0000-0000-000000000000", // Replace you own app-id here
+            app_id: ONESIGNAL_APP_ID,
             device_type: 14,
             identifier: phoneNumber,
           }),
         };
-        fetch("https://onesignal.com/api/v1/players", smsOptions)
+        fetch(ONESIGNAL_PLAYER_API_URL, smsOptions)
           .then((response) => response.json())
           .then((response) => console.log(response))
           .catch((err) => console.error(err));
@@ -279,7 +283,7 @@
             return false;
           });
 
-          // Your code here
+        // Your code here
       });
     </script>
   </body>
