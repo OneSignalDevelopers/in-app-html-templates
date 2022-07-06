@@ -1,0 +1,974 @@
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Raleway:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .pages-container.carousel {
+        display: flex;
+        -webkit-overflow-scrolling: auto;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        overflow-x: visible;
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+        transition-duration: 0.5s;
+        transform: translateX(0px);
+      }
+
+      .pages-container.carousel::-webkit-scrollbar {
+        display: none;
+      }
+
+      .pages-container .page:not(:only-child) {
+        height: 100%;
+        width: 100%;
+        border-radius: 8px;
+        background-size: cover;
+        position: relative;
+        flex: 0 0 auto;
+        margin: 0 8px;
+      }
+
+      .pages-container .page:first-child {
+        margin-left: 0;
+      }
+
+      .pages-container .page:last-child {
+        margin-right: 0;
+      }
+
+      .pages-container .page:not(:only-child) {
+        --flex-container-padding: 24px;
+        padding: var(--flex-container-padding);
+
+        /* give extra space to the page indicator */
+        padding-bottom: 32px;
+        box-sizing: border-box;
+      }
+
+      .carousel-page-indicator {
+        height: 36px;
+        background-color: #00000000;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+        display: flex;
+      }
+
+      .carousel-page-indicator .dot {
+        margin-right: 2px;
+        margin-left: 2px;
+        background: #ffcc8e;
+        border-radius: 50%;
+        display: inline-block;
+        transition-duration: 0.5s;
+      }
+
+      .carousel-page-indicator .dot.instant {
+        transition-duration: 0s;
+      }
+
+      .carousel-page-indicator .dot.dot-inactive-small {
+        height: 6px;
+        width: 6px;
+      }
+
+      .carousel-page-indicator .dot.dot-inactive-medium {
+        height: 8px;
+        width: 8px;
+      }
+
+      .carousel-page-indicator .dot.dot-inactive-hidden {
+        display: none;
+      }
+
+      .carousel-page-indicator .dot.dot-inactive {
+        height: 8px;
+        width: 8px;
+      }
+
+      .carousel-page-indicator .dot.dot-active {
+        height: 8px;
+        width: 25px;
+        background: #ec994b;
+        border-radius: 8px;
+      }
+
+      .outer-content-container {
+        overflow-y: hidden;
+        overflow-x: hidden;
+      }
+
+      .pages-container {
+        height: 100%;
+      }
+
+      .pages-container .page {
+        background: inherit;
+        overflow: hidden;
+        height: 100%;
+        /* width: 340px; */
+      }
+
+      .center-modal {
+        position: relative;
+        background: #ffbc6a;
+        margin: 18px;
+        border-radius: 8px;
+        height: 90%;
+        width: 100%;
+        box-shadow: rgb(0 0 0 / 30%) 0px 0px 12.5px,
+          rgb(0 0 0 / 15%) 0px 0px 2.5px;
+        display: flex;
+        margin: 10% auto;
+      }
+
+      .center-modal .close-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0);
+        border: none;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        min-width: 48px;
+        min-height: 48px;
+      }
+
+      .icon-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 58%;
+        width: 100%;
+      }
+
+      .description {
+        background: #f1eee9;
+        height: 42%;
+        position: absolute;
+        bottom: 0;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .description h1 {
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 28px;
+        display: flex;
+        align-items: center;
+        color: #051b2c;
+        margin-bottom: 8px;
+      }
+
+      .description h2 {
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        color: #73777b;
+      }
+
+      * {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+      }
+
+      div {
+        box-sizing: border-box;
+      }
+
+      h1 {
+        font-weight: 400;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        overflow: hidden;
+        cursor: pointer;
+        padding: 24px;
+        margin: 0;
+        padding-top: var(--safe-area-inset-top);
+        padding-right: var(--safe-area-inset-right);
+        padding-bottom: calc(var(--safe-area-inset-bottom) + 20px);
+        padding-left: var(--safe-area-inset-left);
+      }
+
+      .controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .controls button {
+        background: #28333e;
+        border-radius: 100px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.08),
+          0px 1px 3px rgba(0, 0, 0, 0.08), 0px 4px 6px rgba(0, 0, 0, 0.1);
+        border: 0px solid #28333e;
+        height: 50px;
+        left: 96px;
+        top: 668px;
+        padding: 12px 32px;
+        color: #fff;
+      }
+
+      .controls button.get-started {
+        width: 100%;
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outer-content-container">
+      <div class="pages-container carousel">
+        <div class="page page-0" data-page-index="0">
+          <div class="center-modal">
+            <div
+              class="close-button"
+              data-onesignal-unique-label="close-button"
+            >
+              <svg
+                width="10"
+                height="10"
+                preserveAspectRatio="none"
+                viewBox="0 0 8 8"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7.80309 1.14768C8.06564 0.885137 8.06564 0.459453 7.80309 0.196909C7.54055 -0.0656362 7.11486 -0.0656362 6.85232 0.196909L4 3.04923L1.14768 0.196909C0.885137 -0.0656362 0.459453 -0.0656362 0.196909 0.196909C-0.0656362 0.459453 -0.0656362 0.885137 0.196909 1.14768L3.04923 4L0.196909 6.85232C-0.0656362 7.11486 -0.0656362 7.54055 0.196909 7.80309C0.459453 8.06564 0.885137 8.06564 1.14768 7.80309L4 4.95077L6.85232 7.80309C7.11486 8.06564 7.54055 8.06564 7.80309 7.80309C8.06564 7.54055 8.06564 7.11486 7.80309 6.85232L4.95077 4L7.80309 1.14768Z"
+                  fill="#111111"
+                />
+              </svg>
+            </div>
+            <div class="icon-box">
+              <svg
+                width="140"
+                height="140"
+                viewBox="0 0 140 140"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M131.25 107.917V8.75H2.91675V107.917H55.4167V122.5L32.0834 131.25V137.083H102.083V131.25L78.7501 122.5V107.917H131.25Z"
+                  fill="white"
+                />
+                <path
+                  d="M39.375 23.3333H18.9583C18.1529 23.3333 17.5 23.9862 17.5 24.7916V74.375C17.5 75.1806 18.1529 75.8333 18.9583 75.8333H39.375C40.1804 75.8333 40.8333 75.1806 40.8333 74.375V24.7916C40.8333 23.9862 40.1804 23.3333 39.375 23.3333Z"
+                  fill="#FFCC8E"
+                />
+                <path
+                  d="M115.208 23.3333H48.1251C47.3197 23.3333 46.6667 23.9862 46.6667 24.7916V39.375C46.6667 40.1804 47.3197 40.8333 48.1251 40.8333H115.208C116.014 40.8333 116.667 40.1804 116.667 39.375V24.7916C116.667 23.9862 116.014 23.3333 115.208 23.3333Z"
+                  fill="#FFCC8E"
+                />
+                <path
+                  d="M115.208 46.6667H48.1251C47.3197 46.6667 46.6667 47.3196 46.6667 48.125V56.875C46.6667 57.6804 47.3197 58.3334 48.1251 58.3334H115.208C116.014 58.3334 116.667 57.6804 116.667 56.875V48.125C116.667 47.3196 116.014 46.6667 115.208 46.6667Z"
+                  fill="#FFCC8E"
+                />
+                <path
+                  d="M115.208 64.1667H48.1251C47.3197 64.1667 46.6667 64.8194 46.6667 65.625V74.375C46.6667 75.1806 47.3197 75.8334 48.1251 75.8334H115.208C116.014 75.8334 116.667 75.1806 116.667 74.375V65.625C116.667 64.8194 116.014 64.1667 115.208 64.1667Z"
+                  fill="#FFCC8E"
+                />
+                <path
+                  d="M131.25 8.75H2.91675V107.917H131.25V8.75Z"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M131.25 84.5833H2.91675"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M113.75 96.25H119.583"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M102.083 131.25V137.083H32.0835V131.25L55.4168 122.5V107.917H78.7502V122.5L102.083 131.25Z"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="description">
+              <div class="text">
+                <h1>Realtime Monitoring</h1>
+                <h2>Market analytics and forecast delivered in real time.</h2>
+              </div>
+              <div class="controls">
+                <div class="carousel-page-indicator">
+                  <div class="dot dot-active"></div>
+                  <div class="dot dot-inactive-medium"></div>
+                  <div class="dot dot-inactive-small"></div>
+                </div>
+                <button
+                  class="go-to-next-page"
+                  data-onesignal-unique-label="go-to-page-1"
+                >
+                  <svg
+                    width="24"
+                    height="16"
+                    viewBox="0 0 24 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M23.4722 6.68311L17.4722 0.683113C17.131 0.365161 16.6797 0.192065 16.2134 0.200293C15.7471 0.20852 15.3021 0.397429 14.9724 0.72722C14.6426 1.05701 14.4537 1.50194 14.4454 1.96826C14.4372 2.43458 14.6103 2.88589 14.9282 3.22711L17.8538 6.15511H1.80024C1.32285 6.15511 0.865017 6.34475 0.527452 6.68232C0.189886 7.01989 0.000244141 7.47772 0.000244141 7.95511C0.000244141 8.4325 0.189886 8.89034 0.527452 9.22791C0.865017 9.56547 1.32285 9.75511 1.80024 9.75511H17.8538L14.9282 12.6831C14.7514 12.8479 14.6095 13.0466 14.5112 13.2674C14.4128 13.4882 14.3599 13.7266 14.3556 13.9683C14.3514 14.2099 14.3958 14.45 14.4863 14.6741C14.5769 14.8983 14.7116 15.1019 14.8826 15.2728C15.0535 15.4437 15.2571 15.5785 15.4812 15.669C15.7053 15.7595 15.9454 15.804 16.1871 15.7997C16.4288 15.7955 16.6671 15.7426 16.8879 15.6442C17.1087 15.5458 17.3075 15.404 17.4722 15.2271L23.4722 9.22711C23.6394 9.06016 23.7721 8.86188 23.8626 8.64362C23.9531 8.42535 23.9997 8.19139 23.9997 7.95511C23.9997 7.71883 23.9531 7.48487 23.8626 7.26661C23.7721 7.04835 23.6394 6.85007 23.4722 6.68311Z"
+                      fill="white"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="page page-1" data-page-index="1">
+          <div class="center-modal">
+            <div
+              class="close-button"
+              data-onesignal-unique-label="close-button"
+            >
+              <svg
+                width="10"
+                height="10"
+                preserveAspectRatio="none"
+                viewBox="0 0 8 8"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7.80309 1.14768C8.06564 0.885137 8.06564 0.459453 7.80309 0.196909C7.54055 -0.0656362 7.11486 -0.0656362 6.85232 0.196909L4 3.04923L1.14768 0.196909C0.885137 -0.0656362 0.459453 -0.0656362 0.196909 0.196909C-0.0656362 0.459453 -0.0656362 0.885137 0.196909 1.14768L3.04923 4L0.196909 6.85232C-0.0656362 7.11486 -0.0656362 7.54055 0.196909 7.80309C0.459453 8.06564 0.885137 8.06564 1.14768 7.80309L4 4.95077L6.85232 7.80309C7.11486 8.06564 7.54055 8.06564 7.80309 7.80309C8.06564 7.54055 8.06564 7.11486 7.80309 6.85232L4.95077 4L7.80309 1.14768Z"
+                  fill="#111111"
+                />
+              </svg>
+            </div>
+            <div class="icon-box">
+              <svg
+                width="140"
+                height="140"
+                viewBox="0 0 140 140"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M125.417 102.083L67.0833 137.083L8.75 102.083V2.91669H125.417V102.083Z"
+                  fill="white"
+                />
+                <path
+                  d="M115.693 93.3334L67.0834 122.5L18.4742 93.3334L9.35669 102.451L67.0834 137.083L124.804 102.451L115.693 93.3334Z"
+                  fill="#FFCC8E"
+                />
+                <path
+                  d="M84.5834 43.75H64.1667L49.5834 37.9167L67.0834 29.1667L84.5834 37.9167V43.75Z"
+                  fill="#FFCC8E"
+                />
+                <path
+                  d="M125.417 102.083L67.0833 137.083L8.75 102.083V2.91669H125.417V102.083Z"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M84.5834 58.3334L67.0834 67.0834L49.5834 58.3334V37.9167L67.0834 29.1667L84.5834 37.9167V58.3334Z"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M96.25 96.25V81.6667L67.0833 72.9167L37.9166 81.6667V96.25"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M84.5834 43.75H64.1667L49.5834 37.9167L67.0834 29.1667L84.5834 37.9167V43.75Z"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="description">
+              <div class="text">
+                <h1>Account Protection</h1>
+                <h2>
+                  Security is our top priority, your account is safe with us.
+                </h2>
+              </div>
+              <div class="controls">
+                <div class="carousel-page-indicator">
+                  <div class="dot dot-active"></div>
+                  <div class="dot dot-inactive-medium"></div>
+                  <div class="dot dot-inactive-small"></div>
+                </div>
+                <button
+                  class="go-to-next-page"
+                  data-onesignal-unique-label="go-to-page-2"
+                >
+                  <svg
+                    width="24"
+                    height="16"
+                    viewBox="0 0 24 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M23.4722 6.68311L17.4722 0.683113C17.131 0.365161 16.6797 0.192065 16.2134 0.200293C15.7471 0.20852 15.3021 0.397429 14.9724 0.72722C14.6426 1.05701 14.4537 1.50194 14.4454 1.96826C14.4372 2.43458 14.6103 2.88589 14.9282 3.22711L17.8538 6.15511H1.80024C1.32285 6.15511 0.865017 6.34475 0.527452 6.68232C0.189886 7.01989 0.000244141 7.47772 0.000244141 7.95511C0.000244141 8.4325 0.189886 8.89034 0.527452 9.22791C0.865017 9.56547 1.32285 9.75511 1.80024 9.75511H17.8538L14.9282 12.6831C14.7514 12.8479 14.6095 13.0466 14.5112 13.2674C14.4128 13.4882 14.3599 13.7266 14.3556 13.9683C14.3514 14.2099 14.3958 14.45 14.4863 14.6741C14.5769 14.8983 14.7116 15.1019 14.8826 15.2728C15.0535 15.4437 15.2571 15.5785 15.4812 15.669C15.7053 15.7595 15.9454 15.804 16.1871 15.7997C16.4288 15.7955 16.6671 15.7426 16.8879 15.6442C17.1087 15.5458 17.3075 15.404 17.4722 15.2271L23.4722 9.22711C23.6394 9.06016 23.7721 8.86188 23.8626 8.64362C23.9531 8.42535 23.9997 8.19139 23.9997 7.95511C23.9997 7.71883 23.9531 7.48487 23.8626 7.26661C23.7721 7.04835 23.6394 6.85007 23.4722 6.68311Z"
+                      fill="white"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="page page-2" data-page-index="2">
+          <div class="center-modal">
+            <div
+              class="close-button"
+              data-onesignal-unique-label="close-button"
+            >
+              <svg
+                width="10"
+                height="10"
+                preserveAspectRatio="none"
+                viewBox="0 0 8 8"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7.80309 1.14768C8.06564 0.885137 8.06564 0.459453 7.80309 0.196909C7.54055 -0.0656362 7.11486 -0.0656362 6.85232 0.196909L4 3.04923L1.14768 0.196909C0.885137 -0.0656362 0.459453 -0.0656362 0.196909 0.196909C-0.0656362 0.459453 -0.0656362 0.885137 0.196909 1.14768L3.04923 4L0.196909 6.85232C-0.0656362 7.11486 -0.0656362 7.54055 0.196909 7.80309C0.459453 8.06564 0.885137 8.06564 1.14768 7.80309L4 4.95077L6.85232 7.80309C7.11486 8.06564 7.54055 8.06564 7.80309 7.80309C8.06564 7.54055 8.06564 7.11486 7.80309 6.85232L4.95077 4L7.80309 1.14768Z"
+                  fill="#111111"
+                />
+              </svg>
+            </div>
+            <div class="icon-box">
+              <svg
+                width="140"
+                height="140"
+                viewBox="0 0 140 140"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M137.083 102.083H61.25L20.4167 131.25V102.083H2.91669V2.91669H137.083V102.083Z"
+                  fill="white"
+                />
+                <path
+                  d="M58.3334 90.4167L20.4167 117.501V131.25L61.25 102.083H137.083V90.4167H58.3334Z"
+                  fill="#FFCC8E"
+                />
+                <path
+                  d="M105 78.75L72.9167 20.4167V78.75H105Z"
+                  fill="#FFCC8E"
+                />
+                <path
+                  d="M137.083 102.083H61.25L20.4167 131.25V102.083H2.91669V2.91669H137.083V102.083Z"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M105 78.75H40.8334L72.9167 20.4167L105 78.75Z"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M72.9167 43.75V55.4167"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M72.9167 64.1667V67.0834"
+                  stroke="#15133C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="description">
+              <div class="text">
+                <h1>Stay on Top</h1>
+                <h2>Get market information and alerts anytime, anywhere.</h2>
+              </div>
+              <div class="controls">
+                <button
+                  class="get-started"
+                  data-onesignal-unique-label="get-started-button"
+                >
+                  Get Started
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      var CAROUSEL_CONFIG = {
+        AUTO_SCROLL_DURATION: "0.5s",
+        // how much of the page needs to be scrolled (0.0 - 1.0) in order to have the automatic
+        // scrolling take you to the next page instead of back to the start of the current page
+        NEW_PAGE_SCROLL_THRESHOLD: 0.25,
+        // how far the mouse/touch can 'drag' before we say this isn't a click -- in pixels
+        CLICK_DRAG_THRESHOLD: 5,
+      };
+
+      var iamInfo = {
+        location: "full_screen",
+        afterLoadCallbacks: [],
+        allowClicks: true,
+        // Disable vertical-drag-to-dismiss since it might mistakenly occur when horizontally
+        // dragging to visit the next page
+        shouldVerticalDragDismissMessage: false,
+        carousel: {
+          currentPage: 0,
+          pageCount: 3,
+          pageOffsets: [],
+          pageIds: [],
+          pageBodyClickActions: [],
+          isDragging: false,
+          dragStartX: 0,
+          rawDragStart: 0,
+          totalScroll: 0,
+          finishScrollingTimeout: null,
+        },
+      };
+
+      window.onload = function () {
+        for (var i = 0, n = iamInfo.afterLoadCallbacks.length; i < n; i++) {
+          iamInfo.afterLoadCallbacks[i]();
+        }
+      };
+
+      function getPages() {
+        return document.querySelectorAll(".pages-container .page");
+      }
+
+      function getPagesContainer() {
+        return document.querySelector(".pages-container");
+      }
+
+      function getScrollOffsetForPage(pageIndex) {
+        return iamInfo.carousel.pageOffsets[pageIndex];
+      }
+
+      function getPageId(pageIndex) {
+        return iamInfo.carousel.pageIds[pageIndex];
+      }
+
+      function applyScroll(target, scrollInstantly) {
+        var pagesContainer = getPagesContainer();
+        if (!pagesContainer) {
+          return;
+        }
+
+        if (scrollInstantly) {
+          pagesContainer.style.transitionDuration = "0s";
+        } else {
+          pagesContainer.style.transitionDuration =
+            CAROUSEL_CONFIG.AUTO_SCROLL_DURATION;
+        }
+
+        // prevent scrolling past content
+        target = Math.min(
+          target,
+          carouselPages[carouselPages.length - 1].offsetLeft
+        );
+
+        pagesContainer.style.transform = "translateX(-" + target + "px)";
+        iamInfo.carousel.totalScroll = target;
+      }
+
+      function scrollToPage(pageIndex, scrollInstantly) {
+        // when scrollInstantly is false the iam show a scrolling animation
+        var target = getScrollOffsetForPage(pageIndex);
+        applyScroll(target, scrollInstantly);
+
+        updatePageIndicators(scrollInstantly);
+      }
+
+      function updatePageIndicators(updateInstantly) {
+        var indicators = document.querySelectorAll(".carousel-page-indicator");
+        var dotSets = Array.from(indicators).map(function (indicator) {
+          return indicator.querySelectorAll(".dot");
+        });
+
+        dotSets.forEach(function (dotSet) {
+          updatePageIndicatorDotSet(dotSet);
+        });
+      }
+
+      function updatePageIndicatorDotSet(dotSet, updateInstantly) {
+        var currentPage = iamInfo.carousel.currentPage;
+
+        for (var i = 0, n = dotSet.length; i < n; i++) {
+          var classNames = ["dot"];
+          if (updateInstantly) {
+            classNames.push("instant");
+          }
+
+          if (i === currentPage) {
+            classNames.push("dot-active");
+          } else if (i === currentPage - 1 || i === currentPage + 1) {
+            classNames.push("dot-inactive-medium");
+          } else if (i === currentPage - 2 || i === currentPage + 2) {
+            classNames.push("dot-inactive-small");
+          } else {
+            classNames.push("dot-inactive-hidden");
+          }
+
+          dotSet[i].className = classNames.join(" ");
+        }
+      }
+
+      function afterDrag() {
+        var carousel = getPagesContainer();
+        if (!carousel) {
+          return;
+        }
+
+        // get scroll offset of current page
+        var currentPageScroll = getScrollOffsetForPage(
+          iamInfo.carousel.currentPage
+        );
+
+        // see how far we have scrolled from there
+        var scrollDistance = currentPageScroll - iamInfo.carousel.totalScroll;
+
+        // if we are within threshold for this, just scroll back to page
+        var threshold =
+          carousel.getBoundingClientRect().width *
+          CAROUSEL_CONFIG.NEW_PAGE_SCROLL_THRESHOLD;
+
+        if (Math.abs(scrollDistance) > threshold) {
+          // this is a new page -- assume we never scroll more than one page at a time
+          var pageChange = scrollDistance > 0 ? -1 : 1;
+          var nextPage = Math.max(
+            0,
+            Math.min(
+              iamInfo.carousel.currentPage + pageChange,
+              iamInfo.carousel.pageCount - 1
+            )
+          );
+
+          if (nextPage !== iamInfo.carousel.currentPage) {
+            postMessageToNative({
+              type: "page_change",
+              pageIndex: nextPage,
+              pageId: getPageId(nextPage),
+            });
+            iamInfo.carousel.currentPage = nextPage;
+          }
+        }
+
+        // scroll to align/change the page
+        scrollToPage(iamInfo.carousel.currentPage, false);
+      }
+
+      function setupCarouselPages() {
+        var pageWidth = document.documentElement.clientWidth;
+        for (var i = 0, n = carouselPages.length; i < n; i++) {
+          carouselPages[i].style.width = pageWidth;
+          iamInfo.carousel.pageOffsets[i] = carouselPages[i].offsetLeft;
+
+          var attributes = getAttributes(carouselPages[i]);
+          var pageId = attributes["data-page-id"];
+          iamInfo.carousel.pageIds[i] = pageId;
+        }
+        scrollToPage(iamInfo.carousel.currentPage, true);
+      }
+
+      function handleEndOfDrag() {
+        // wait until next tick to clear isDragging so we dont have to worry
+        // about who comes first with other events (like CLICK)
+        setTimeout(function () {
+          iamInfo.carousel.isDragging = false;
+          iamInfo.allowClicks = true;
+          afterDrag();
+        }, 1);
+      }
+
+      function setupCarouselAndReportFirstPageView() {
+        // explicitly set all the pages to the width of the client
+        setupCarouselPages();
+
+        // report first page view -- this MUST happen after setupCarousel
+        postMessageToNative({
+          type: "page_change",
+          pageIndex: iamInfo.carousel.currentPage,
+          pageId: getPageId(iamInfo.carousel.currentPage),
+          initialSetup: true,
+        });
+      }
+
+      iamInfo.afterLoadCallbacks.push(function () {
+        var pagesContainer = getPagesContainer();
+        if (!pagesContainer) {
+          return;
+        }
+
+        carouselPages = getPages();
+
+        setupCarouselAndReportFirstPageView();
+
+        // keep track of drags so we can scroll the contents
+        // "touchstart" event to store the touch down position
+        var container = document.querySelector(".outer-content-container");
+        container.addEventListener(
+          "touchstart",
+          function (e) {
+            if (e.isCancelable) {
+              e.preventDefault();
+            }
+
+            var touchOffsets = e.changedTouches[0];
+            iamInfo.carousel.isDragging = true;
+            iamInfo.carousel.dragStartX = touchOffsets.pageX;
+            iamInfo.carousel.rawDragStart = touchOffsets.pageX;
+          },
+          false
+        );
+
+        container.addEventListener(
+          "mousedown",
+          function (e) {
+            if (e.isCancelable) {
+              e.preventDefault();
+            }
+
+            iamInfo.carousel.isDragging = true;
+            iamInfo.carousel.dragStartX = e.clientX;
+            iamInfo.carousel.rawDragStart = e.clientX;
+          },
+          false
+        );
+
+        // "touchmove" event to scroll the div with the user's X touch
+        container.addEventListener(
+          "touchmove",
+          function (e) {
+            if (iamInfo.carousel.isDragging) {
+              if (e.isCancelable) {
+                e.preventDefault();
+              }
+              var touchOffsets = e.changedTouches[0];
+              var diffX = iamInfo.carousel.dragStartX - touchOffsets.pageX;
+              iamInfo.carousel.dragStartX = touchOffsets.pageX;
+
+              var target = iamInfo.carousel.totalScroll + diffX;
+              applyScroll(target, true);
+
+              // decide if we have dragged far enough to prevent an clicking
+              var dragDistance = Math.abs(
+                iamInfo.carousel.dragStartX - iamInfo.carousel.rawDragStart
+              );
+              if (dragDistance > CAROUSEL_CONFIG.CLICK_DRAG_THRESHOLD) {
+                iamInfo.allowClicks = false;
+              }
+            }
+          },
+          false
+        );
+
+        container.addEventListener(
+          "mousemove",
+          function (e) {
+            if (iamInfo.carousel.isDragging) {
+              if (e.isCancelable) {
+                e.preventDefault();
+              }
+              var diffX = iamInfo.carousel.dragStartX - e.clientX;
+              iamInfo.carousel.dragStartX = e.clientX;
+
+              var target = iamInfo.carousel.totalScroll + diffX;
+              applyScroll(target, true);
+
+              // decide if we have dragged far enough to prevent an clicking
+              var dragDistance = Math.abs(
+                iamInfo.carousel.dragStartX - iamInfo.carousel.rawDragStart
+              );
+              if (dragDistance > CAROUSEL_CONFIG.CLICK_DRAG_THRESHOLD) {
+                iamInfo.allowClicks = false;
+              }
+            }
+          },
+          false
+        );
+
+        // "touchend" event to snap to prev, current, or next page
+        container.addEventListener(
+          "touchend",
+          function (e) {
+            if (iamInfo.carousel.isDragging) {
+              if (e.isCancelable) {
+                e.preventDefault();
+              }
+
+              handleEndOfDrag();
+            }
+          },
+          false
+        );
+
+        container.addEventListener(
+          "mouseup",
+          function (e) {
+            if (iamInfo.carousel.isDragging) {
+              if (e.isCancelable) {
+                e.preventDefault();
+              }
+
+              handleEndOfDrag();
+            }
+          },
+          false
+        );
+
+        container.addEventListener(
+          "mouseleave",
+          function (e) {
+            if (iamInfo.carousel.isDragging) {
+              if (e.isCancelable) {
+                e.preventDefault();
+              }
+
+              handleEndOfDrag();
+            }
+          },
+          false
+        );
+      });
+
+      // NOTE: for "resize" and "orientationchange" events
+      // We don't know the timing of when the html is updated on Android webviews in relation
+      // to when the "resize" and "orientationchange" events are fired. This means setting the page
+      // widths synchronously inside the event handler isn't guaranteed to work. However delaying
+      // for several seconds after the event has been proven to almost always work. Therefore we
+      // can't count on the event to tell us when the action is safe to perform. Instead we need to
+      // delay the action and attempt it sometime after the page is actually finished resizing.
+      // The longer the timeout the better the rate-of-success. The shorter the timeout the better
+      // the UX. In order to maximize both of these characteristics we are opting to make multiple
+      // calls function calls.
+      window.onresize = function () {
+        // since page size just changed we need to update our scroll position so the current
+        // visible page is the same (and properly aligned) as before the resize
+        carouselPages && setupCarouselPages();
+
+        setTimeout(() => {
+          carouselPages && setupCarouselPages();
+        }, 10);
+
+        setTimeout(() => {
+          carouselPages && setupCarouselPages();
+        }, 100);
+
+        setTimeout(() => {
+          carouselPages && setupCarouselPages();
+        }, 1000);
+
+        setTimeout(() => {
+          carouselPages && setupCarouselPages();
+        }, 2000);
+      };
+
+      window.addEventListener("orientationchange", function () {
+        carouselPages && setupCarouselPages();
+
+        setTimeout(() => {
+          carouselPages && setupCarouselPages();
+        }, 10);
+
+        setTimeout(() => {
+          carouselPages && setupCarouselPages();
+        }, 100);
+
+        setTimeout(() => {
+          carouselPages && setupCarouselPages();
+        }, 1000);
+
+        setTimeout(() => {
+          carouselPages && setupCarouselPages();
+        }, 2000);
+      });
+
+      function getAttributes(element) {
+        var attributes = {};
+        if (element.hasAttributes()) {
+          for (var i = 0, n = element.attributes.length; i < n; i++) {
+            var attr = element.attributes[i];
+            attributes[attr.name] = attr.value;
+          }
+        }
+        return attributes;
+      }
+
+      window.addEventListener("load", (event) => {
+        document
+          .querySelector(".close-button")
+          .addEventListener("click", function (e) {
+            OneSignalIamApi.close(e);
+          });
+
+        document
+          .querySelector(".get-started")
+          .addEventListener("click", function (e) {
+            OneSignalIamApi.close(e);
+          });
+
+        document.querySelectorAll(".go-to-next-page").forEach(function (node) {
+          node.addEventListener("click", function (e) {
+            console.log(iamInfo.carousel.currentPage);
+            scrollToPage(iamInfo.carousel.currentPage + 1, false);
+          });
+        });
+
+        // Your code here
+      });
+    </script>
+  </body>
+</html>
