@@ -1,43 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Onesignal In-App Message</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;700&family=Raleway:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         margin: 0;
         padding-top: var(--safe-area-inset-top);
         padding-right: var(--safe-area-inset-right);
         padding-bottom: calc(var(--safe-area-inset-bottom) + 20px);
         padding-left: var(--safe-area-inset-left);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
         display: flex;
         align-items: center;
       }
 
       .center-modal {
         position: relative;
-        background: #FAE8CD;
+        background: #fae8cd;
         margin: 18px;
-        padding: 24px;
+        padding: 24px 24px 0;
         border-radius: 8px;
 
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
         height: 85%;
+        max-height: 640px;
         width: 100%;
-        box-shadow: rgb(0 0 0 / 30%) 0px 0px 12.5px, rgb(0 0 0 / 15%) 0px 0px 2.5px;
+        box-shadow: rgb(0 0 0 / 30%) 0px 0px 12.5px,
+          rgb(0 0 0 / 15%) 0px 0px 2.5px;
       }
 
       .center-modal .close-button {
         position: absolute;
-        top: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0);
+        top: 10;
+        right: 10;
+        background: rgba(255, 255, 255, 0.5);
         border: none;
         z-index: 1;
         display: flex;
@@ -45,38 +58,99 @@
         flex-direction: column;
         align-items: center;
         /* Tip: Make your close-button relatively large so it's easy to click */
-        min-width: 48px;
-        min-height: 48px;
-      }
-
-      .center-modal img {
-        min-height: 10px;
-        margin-bottom: 12px;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
+        min-width: 36px;
+        min-height: 36px;
+        border-radius: 50%;
       }
 
       .center-modal h1 {
-        margin: 0px;
-        margin-bottom: 12px;
+        margin: 32px 0 0 0;
         color: #222;
-        font-size: 24;
-        font-style: normal;
-        font-weight: normal;
-        text-align: center;
         text-decoration: none;
+        font-family: Raleway;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 28px;
+        letter-spacing: 0px;
+        text-align: left;
       }
 
-      .center-modal button {
+      .center-modal h2 {
+        font-family: Raleway;
         font-size: 16px;
-        color: #fff;
-        background-color: #1F8FEB;
-        width: 100%;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0px;
+        text-align: left;
+        color: #73777b;
+      }
+
+      form {
+        overflow: auto;
+        padding-bottom: 53px;
+      }
+
+      form div {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
         padding: 12px;
-        border-radius: 4px;
+        gap: 8px;
+        background: #ffffff;
+        border-radius: 8px;
         border: none;
-        margin-bottom: 12px;
+        margin: 12px 0;
+      }
+
+      form input[type="checkbox"] {
+        /* Add if not using autoprefixer */
+        -webkit-appearance: none;
+        appearance: none;
+        /* For iOS < 15 to remove gradient background */
+        background-color: #fff;
+        /* Not removed via appearance */
+        margin-right: 6px;
+        font: inherit;
+        color: currentColor;
+        width: 1.15em;
+        height: 1.15em;
+        border: 0.15em solid #cbd1d7;
+        border-radius: 0.15em;
+        transform: translateY(-0.075em);
+        display: grid;
+        place-content: center;
+      }
+
+      input[type="checkbox"]::before {
+        content: "";
+        width: 0.65em;
+        height: 0.65em;
+        transform: scale(0);
+        transition: 120ms transform ease-in-out;
+        box-shadow: inset 1em 1em #33717a;
+        transform-origin: bottom left;
+        clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+      }
+
+      input[type="checkbox"]:checked::before {
+        transform: scale(1);
+      }
+
+      form input[type="submit"] {
+        color: #fff;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        left: 0;
+        height: 70px;
+        border: none;
+        background: #28333e;
+
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 21px;
       }
 
       .flex-container {
@@ -97,61 +171,125 @@
   <body>
     <div class="center-modal">
       <div class="close-button" data-onesignal-unique-label="close-button">
-        <svg width="10" height="10" preserveAspectRatio="none" viewBox="0 0 8 8" fill="none"
-          xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="10"
+          height="10"
+          preserveAspectRatio="none"
+          viewBox="0 0 8 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             d="M7.80309 1.14768C8.06564 0.885137 8.06564 0.459453 7.80309 0.196909C7.54055 -0.0656362 7.11486 -0.0656362 6.85232 0.196909L4 3.04923L1.14768 0.196909C0.885137 -0.0656362 0.459453 -0.0656362 0.196909 0.196909C-0.0656362 0.459453 -0.0656362 0.885137 0.196909 1.14768L3.04923 4L0.196909 6.85232C-0.0656362 7.11486 -0.0656362 7.54055 0.196909 7.80309C0.459453 8.06564 0.885137 8.06564 1.14768 7.80309L4 4.95077L6.85232 7.80309C7.11486 8.06564 7.54055 8.06564 7.80309 7.80309C8.06564 7.54055 8.06564 7.11486 7.80309 6.85232L4.95077 4L7.80309 1.14768Z"
-            fill="#111111" />
+            fill="#111111"
+          />
         </svg>
       </div>
-      <h1>Any allergies</h1>
+      <h1>Any allergies?</h1>
       <h2>Get better recommendations and other customized experience</h2>
       <form>
-        <fieldset>
-          <input type="checkbox" name="dairy"/>
+        <div>
+          <input type="checkbox" name="dairy" />
           <label for="dairy">Dairy</label>
-        </fieldset>
-        <fieldset>
-          <input type="checkbox" name="eggs"/>
+        </div>
+        <div>
+          <input type="checkbox" name="eggs" />
           <label for="eggs">Eggs</label>
-        </fieldset>
-        <fieldset>
-          <input type="checkbox" name="tree-nuts"/>
-          <label for="tree-nuts">Tree Nuts</label>
-        </fieldset>
-        <fieldset>
-          <input type="checkbox" name="shellfish"/>
+        </div>
+        <div>
+          <input type="checkbox" name="treeNuts"/>
+          <label for="treeNuts">Tree Nuts</label>
+        </div>
+        <div>
+          <input type="checkbox" name="shellfish" />
           <label for="shellfish">Shellfish</label>
-        </fieldset>
-        <fieldset>
-          <input type="checkbox" name="wheat"/>
+        </div>
+        <div>
+          <input type="checkbox" name="wheat" />
           <label for="wheat">Wheat</label>
-        </fieldset>
-        <fieldset>
-          <input type="checkbox" name="peanuts"/>
+        </div>
+        <div>
+          <input type="checkbox" name="peanuts" />
           <label for="peanuts">Peanuts</label>
-        </fieldset>
-        <fieldset>
-          <input type="checkbox" name="soy"/>
+        </div>
+        <div>
+          <input type="checkbox" name="soy" />
           <label for="soy">Soy</label>
-        </fieldset>
-        <fieldset>
-          <input type="checkbox" name="seafood"/>
+        </div>
+        <div>
+          <input type="checkbox" name="seafood" />
           <label for="seafood">Seafood</label>
-        </fieldset>
-        <fieldset>
-          <input type="checkbox" name="sesame"/>
+        </div>
+        <div>
+          <input type="checkbox" name="sesame" />
           <label for="sesame">Sesame</label>
-        </fieldset>
-        <fieldset>
-          <input type="checkbox" name="gluten"/>
+        </div>
+        <div>
+          <input type="checkbox" name="gluten" />
           <label for="gluten">Gluten</label>
-        </fieldset>
+        </div>
+        <input type="submit" data-onesignal-unique-label="submit-button" />
       </form>
     </div>
     <script>
+      if (iamInfo) {
+        iamInfo.shouldVerticalDragDismissMessage = false;
+      }
       // Your code here
-      document.querySelector(".close-button").addEventListener("click", function(e) {
+      document
+        .querySelector(".close-button")
+        .addEventListener("click", function (e) {
+          OneSignalIamApi.close(e);
+        });
+
+      document.querySelectorAll("input[type=checkbox").forEach(function (node) {
+        node.addEventListener("click", function (e) {
+          if (e.target.checked) {
+            e.target.parentElement.style["background-color"] = "#33717A";
+            e.target.parentElement.style["color"] = "#FFF";
+            e.target.style["border"] = "none";
+          } else {
+            e.target.removeAttribute("style");
+            e.target.parentElement.removeAttribute("style");
+          }
+        });
+      });
+
+      function handleSurveyAnswer(answers) {
+        // Add your own survey api endpoint url here
+        var url = "";
+        var options = {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            value: answers,
+          }),
+        };
+        fetch(url, options)
+          .then((response) => response.json())
+          .then((response) => console.log(response))
+          .catch((err) => console.error(err));
+      }
+
+      document.querySelector("form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var answers = {
+          dairy: e.target.dairy.checked,
+          eggs: e.target.eggs.checked,
+          treeNuts: e.target.treeNuts.checked,
+          shellfish: e.target.shellfish.checked,
+          wheat: e.target.wheat.checked,
+          peanuts: e.target.peanuts.checked,
+          soy: e.target.soy.checked,
+          seafood: e.target.seafood.checked,
+          sesame: e.target.sesame.checked,
+          gluten: e.target.gluten.checked,
+        };
+        handleSurveyAnswer(answers);
         OneSignalIamApi.close(e);
       });
     </script>
