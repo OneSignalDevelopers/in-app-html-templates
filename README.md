@@ -2,7 +2,7 @@
  HTML Templates for in-app messaging
 
 ## Templates
-* [Leads (SMS + Email)](#/README.md)
+* [Leads (SMS + Email)](./sms_email_form/README.md)
 * [Survey (Ranking 1-5)](#/README.md)
 * [Carousel](#/README.md)
 * [Responsive](#/README.md)
