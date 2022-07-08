@@ -3,7 +3,8 @@
 
 ## Templates
 * [Leads (SMS + Email)](#/README.md)
-* [Survey (Ranking 1-5)](#/README.md)
+* [Survey (Ranking 1-5)](./ranking_survey/README.md)
+![survey ranking screenshot](./ranking_survey/readme_assets/ranking_survey_screenshots.png)
 * [Carousel](#/README.md)
 * [Responsive](#/README.md)
 * [Promo Wheel](#/README.md)
