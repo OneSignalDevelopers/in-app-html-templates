@@ -5,6 +5,7 @@
 * [Leads (SMS + Email)](./sms_email_form/README.md)  
 <img alt="screenshare" src="./sms_email_form/readme_assets/sms_email_form.gif" width="200px">
 * [Survey (Ranking 1-5)](#/README.md)
+![survey ranking screenshot](./ranking_survey/readme_assets/ranking_survey_screenshots.png)
 * [Carousel](#/README.md)
 * [Responsive](#/README.md)
 * [Promo Wheel](#/README.md)
