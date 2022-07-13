@@ -269,6 +269,7 @@
           .querySelector(".player-form")
           .addEventListener("submit", function (e) {
             e.preventDefault();
+            e.stopPropagation();
             var emailAddress = e.target["email-address"].value;
             var phoneNumber = phoneInput.getNumber();
 
@@ -280,7 +281,6 @@
               createSmsPlayer(phoneNumber);
             }
             OneSignalIamApi.close(e);
-            return false;
           });
 
         // Your code here
