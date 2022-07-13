@@ -5,16 +5,16 @@ For more information on how to build HTML In-App Messages view our [documentatio
 
 ## Templates
 
-###### [Leads (SMS + Email)](./sms_email_form/README.md)
+###### [Leads (SMS + Email)](./sms_email_form)
 <img alt="Leads" src="./sms_email_form/readme_assets/sms_email_form.gif" width="200px">
 
-###### [Survey (Ranking 1-5)](./ranking_survey/README.md)
+###### [Survey (Ranking 1-5)](./ranking_survey)
 <img alt="Survey" src="./ranking_survey/readme_assets/ranking_survey_iam.gif" width="200px">
 
-###### [Carousel](./carousel/README.md)
+###### [Carousel](./carousel)
 <img alt="Carousel" src="./carousel/readme_assets/carousel_iam.gif" width="200px">
 
-###### [Promo Wheel](./promo_wheel/README.md)
+###### [Promo Wheel](./promo_wheel)
 <img alt="Promo Wheel" src="./promo_wheel/readme_assets/promo_wheel_iam.gif" width="200px">
 
 ### Safe Area (notch) Detection
