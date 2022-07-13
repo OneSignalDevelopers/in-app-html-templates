@@ -5,6 +5,8 @@ For more information on how to build HTML In-App Messages view our [documentatio
 
 ## Templates
 
+For more information of how html in-apps work see our [advanced usage doc](./advanced-usage.md)
+
 ###### [Leads (SMS + Email)](./sms_email_form/README.md)
 <img alt="Leads" src="./sms_email_form/readme_assets/sms_email_form.gif" width="200px">
 
