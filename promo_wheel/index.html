@@ -216,6 +216,10 @@
         border: none;
         box-shadow: 0px 1px 1px rgba(5, 27, 44, 0.16),
           inset 0px 2px 0px rgba(255, 255, 255, 0.05);
+        font-family: "Raleway";
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
       }
 
       .shop-now-button {
@@ -227,9 +231,17 @@
         height: 48px;
         padding: 12px;
         border: none;
+        font-family: "Raleway";
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
         box-shadow: 0px 1px 1px rgba(5, 27, 44, 0.16),
           inset 0px 2px 0px rgba(255, 255, 255, 0.05);
         margin-top: 48px;
+      }
+
+      h2.deal {
+        font-size: 36px;
       }
 
       @media screen and (min-width: 480px) {
@@ -240,8 +252,8 @@
   <body>
     <div class="close-button" data-onesignal-unique-label="close-button">
       <svg
-        width="10"
-        height="10"
+        width="16"
+        height="16"
         preserveAspectRatio="none"
         viewBox="0 0 8 8"
         fill="none"
@@ -338,67 +350,89 @@
             number += 1;
           }
           wheel.style.transform = "rotate(" + number + "deg)";
-          var isPromoReceived = handlePromoReceived(number);
+          var results = handlePromoReceived(number);
+          var isPromoReceived = results.isPromoReceived;
+          var shouldTryAgain = results.shouldTryAgain;
+
+          var resultTimeout = 5000;
+
           if (isPromoReceived) {
             setTimeout(function () {
-            document.querySelector(".shop-now-button").style["display"] =
-              "block";
-            document.querySelector(
-              ".promo-code-code-message"
-            ).style["display"] = "flex";
-            document.querySelector(
-              ".deal"
-            ).innerText = window.deal;
-            document.querySelector(
-              ".promo-code"
-            ).innerText = window.promoCode;
-            document.querySelector(".wheel-container .stopper").style[
-              "display"
-            ] = "none";
-            document.querySelector("form").style["display"] = "none";
-            document.querySelector(".primary-header").innerText =
-              "Congratulations";
-            document.querySelector(".secondary-header").innerText =
-              "You unlocked a good discount";
-          }, 5000);
+              document.querySelector(".shop-now-button").style["display"] =
+                "block";
+              document.querySelector(
+                ".promo-code-code-message"
+              ).style["display"] = "flex";
+              document.querySelector(
+                ".deal"
+              ).innerText = window.deal;
+              document.querySelector(
+                ".promo-code"
+              ).innerText = window.promoCode;
+              document.querySelector(".wheel-container .stopper").style[
+                "display"
+              ] = "none";
+              document.querySelector("form").style["display"] = "none";
+              document.querySelector(".primary-header").innerText =
+                "Congratulations";
+              document.querySelector(".secondary-header").innerText =
+                "You unlocked a good discount";
+            }, resultTimeout);
+          }
+
+          if (shouldTryAgain) {
+            setTimeout(function () {
+              document.querySelector('input[type="submit"]').value = "Try Again!";
+            }, resultTimeout)
           }
         });
 
         function handlePromoReceived(number) {
           var finalRotation = number % 360;
-          console.log("number:", number, "finalRotation:", finalRotation);
+          var isPromoReceived;
+          var shouldTryAgain;
           if (finalRotation < 30) {
-            console.log("Try Again!");
-            return false;
+            isPromoReceived = false;
+            shouldTryAgain = true;
           }
           if (finalRotation >= 30 && finalRotation < 90) {
             window.deal = "25% Off!";
             window.promoCode = "58UYGD";
-            return true;
+            isPromoReceived = true;
+            shouldTryAgain = false;
           }
           if (finalRotation >= 90 && finalRotation < 150) {
             window.deal = "20% Off!";
             window.promoCode = "18RYBQ";
-            return true;
+            isPromoReceived = true;
+            shouldTryAgain = false;
           }
           if (finalRotation >= 150 && finalRotation < 210) {
             window.deal = "30% Off!";
             window.promoCode = "48YTGA";
-            return true;
+            isPromoReceived = true;
+            shouldTryAgain = false;
           }
           if (finalRotation >= 210 && finalRotation < 270) {
             window.deal = "10% Off!";
             window.promoCode = "78UUWL";
-            return true;
+            isPromoReceived = true;
+            shouldTryAgain = false;
           }
           if (finalRotation >= 270 && finalRotation < 330) {
             window.deal = "15% Off!";
             window.promoCode = "01RLPW";
-            return true;
+            isPromoReceived = true;
+            shouldTryAgain = false;
           }
           if (finalRotation >= 330) {
-            console.log("Try Again!");
-            return false;
+            isPromoReceived = false;
+            shouldTryAgain = true;
+          }
+
+          return {
+            isPromoReceived: isPromoReceived,
+            shouldTryAgain: shouldTryAgain,
           }
         }
       });
