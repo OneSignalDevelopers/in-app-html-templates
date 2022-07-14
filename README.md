@@ -17,3 +17,6 @@ For more information of how html in-apps work see our [advanced usage doc](./adv
 
 ###### [Promo Wheel](./promo_wheel)
 <img alt="Promo Wheel" src="./promo_wheel/readme_assets/promo_wheel_iam.gif" width="200px">
+
+###### [Check List Survey](./check_list_survey)
+<img alt="Check List Survey" src="./check_list_survey/readme_assets/checklist_survey_iam.gif" width="200px">

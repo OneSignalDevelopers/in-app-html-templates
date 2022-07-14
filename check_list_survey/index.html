@@ -33,7 +33,6 @@
         position: relative;
         background: #fae8cd;
         margin: 18px;
-        padding: 24px 24px 0;
         border-radius: 8px;
 
         display: flex;
@@ -61,6 +60,10 @@
         min-width: 36px;
         min-height: 36px;
         border-radius: 50%;
+      }
+
+      .center-modal .headings {
+        padding: 24px 24px 0 24px;
       }
 
       .center-modal h1 {
@@ -99,12 +102,13 @@
         background: #ffffff;
         border-radius: 8px;
         border: none;
-        margin: 12px 0;
+        margin: 12px 24px;
       }
 
       form input[type="checkbox"] {
         /* Add if not using autoprefixer */
         -webkit-appearance: none;
+        outline: none !important;
         appearance: none;
         /* For iOS < 15 to remove gradient background */
         background-color: #fff;
@@ -185,8 +189,10 @@
           />
         </svg>
       </div>
-      <h1>Any allergies?</h1>
-      <h2>Get better recommendations and other customized experience</h2>
+      <div class="headings">
+        <h1>Any allergies?</h1>
+        <h2>Get better recommendations and other customized experience</h2>
+      </div>
       <form>
         <div>
           <input type="checkbox" name="dairy" />
