@@ -1,6 +1,6 @@
 # Carousel Template
 
-[Carousels](https://onesignal.com/carousel) are a great way to convey value to users and encourage them to take an action. They’re often used for onboarding, feature announcements, and recommendations. They can also be used to encourage users to accept push notifications, enable location permissions, and to leave an app store review.
+[Carousels](https://onesignal.com/carousel) are a great way to convey value to users and encourage them to take an action. They are often used for onboarding, feature announcements, and recommendations. They can also be used to encourage users to accept push notifications, enable location permissions, and to leave an app store review.
 Our carousel template provides three cards. However, you can build out up to 10 screens of content in a scrollable carousel format.
 
 ![Carousel](readme_assets/carousel.png)
