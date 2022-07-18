@@ -550,11 +550,9 @@
       </div>
     </div>
     <script type="text/javascript">
-      if (iamInfo) {
-        // Disable vertical-drag-to-dismiss since it might mistakenly occur when horizontally
-        // dragging to visit the next page
-        iamInfo.shouldVerticalDragDismissMessage = false;
-      }
+      // Disable vertical-drag-to-dismiss since it might mistakenly occur when horizontally
+      // dragging to visit the next page
+      OneSignalIamApi.disableVerticalDragToDismiss();
 
       var config = {
         autoScrollDuration: "0.5s",
