@@ -238,9 +238,10 @@
       </form>
     </div>
     <script>
-      if (iamInfo) {
-        iamInfo.shouldVerticalDragDismissMessage = false;
-      }
+      // Disable vertical-drag-to-dismiss since it might mistakenly occur when horizontally
+      // dragging to visit the next page
+      OneSignalIamApi.disableVerticalDragToDismiss();
+
       // Your code here
       document
         .querySelector(".close-button")
