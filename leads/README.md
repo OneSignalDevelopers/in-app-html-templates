@@ -1,6 +1,6 @@
 # Leads Form Template (sms+email)
 
-Gather leads through an in-app message. This in-app message template allows you to collect free-form input from users. With this template, you can capture a user’s phone number, email, and permission to contact them so that you can communicate with them through other channels such as email and SMS. This template is currently set up to send emails and phone numbers to your OneSignal user list through the OneSignal Rest API.
+Gather leads through an in-app message. This in-app message template allows you to collect free-form input from users. With this template, you can capture a user’s phone number, email, and permission to contact them so that you can communicate with them through other channels such as email and SMS. This template is currently set up to send [emails](https://documentation.onesignal.com/docs/import-email-addresses#import-emails-via-api) and [phone numbers](https://documentation.onesignal.com/docs/import-phone-numbers) to your OneSignal user list through the OneSignal Rest API.
 
 Other details can also be collected and used as tags to better segment users.
 
