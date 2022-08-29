@@ -16,8 +16,8 @@ body:
   id: feedback
   attributes:
     label: What's on your mind?
-    description: Feedback regarding this SDK.
-    placeholder: Share your feedback...
+    description: General feedback regarding thesein-app HTML templates.
+    placeholder: How can we improve your experience using these templates?
   validations:
     required: true
 - type: checkboxes
