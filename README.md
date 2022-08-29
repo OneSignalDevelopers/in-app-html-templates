@@ -16,10 +16,6 @@ For more information of how html in-apps work see our [advanced usage doc](./adv
 
 <img alt="Survey" src="./ranking_survey/readme_assets/ranking_survey_iam.gif" width="200px">
 
-###### [Carousel](./carousel)
-
-<img alt="Carousel" src="./carousel/readme_assets/carousel_iam.gif" width="200px">
-
 ###### [Promo Wheel](./promo_wheel)
 
 <img alt="Promo Wheel" src="./promo_wheel/readme_assets/promo_wheel_iam.gif" width="200px">
