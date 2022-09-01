@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Onesignal In-App Message</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Raleway:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CSS Reset -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+      rel="stylesheet"
+    />
+    <!--
+    intl-tel-input
+    for more information see https://www.twilio.com/blog/international-phone-number-input-html-javascript
+    -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&family=Raleway:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@thelevicole/youtube-to-html5-loader@4.0.1/dist/YouTubeToHtml5.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        display: flex;
+        align-items: center;
+        background: #e5e8eb;
+        padding-left: var(--safe-area-inset-left);
+      }
+
+      .close-button {
+        position: absolute;
+        top: 30;
+        right: 15;
+        background: rgba(0, 0, 0, 0);
+        border: none;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        /* Tip: Make your close-button relatively large so it's easy to click */
+        min-width: 36px;
+        min-height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      .flex-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+      }
+
+      .flex-container > div:first-child,
+      .flex-container > div:last-child {
+        flex: 1 1 50%;
+      }
+
+      .description {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 24px;
+        text-align: center;
+        text-transform: capitalize;
+        color: #051b2c;
+        gap: 12px;
+      }
+
+      .description h1 {
+        font-family: "Raleway";
+        font-size: 36px;
+        font-weight: 500;
+        line-height: 43px;
+        letter-spacing: 0em;
+      }
+
+      .description .controls {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .description .controls button {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 8px 12px;
+        box-shadow: 0px 1px 1px rgba(5, 27, 44, 0.16),
+          inset 0px 2px 0px rgba(255, 255, 255, 0.05);
+        border-radius: 50px;
+        width: 130px;
+        height: 56px;
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+        text-transform: capitalize;
+        border: none;
+        width: 80%;
+        max-width: 285px;
+        margin: 0 16px 16px 0;
+      }
+
+      .not-now-button {
+        color: #74808b;
+        background: #fff;
+      }
+
+      .get-tickets-button {
+        background: #4346ce;
+      }
+
+      .get-tickets-button a {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      /* video class comes from youtube embed */
+      .video-container iframe {
+        height: 100% !important;
+      }
+
+      @media screen and (min-width: 480px) {
+        .body {
+        }
+
+        .flex-container {
+          flex-direction: row-reverse;
+        }
+
+        .flex-container > div {
+          flex: 1 1 50%;
+          width: 50%;
+          overflow: hidden;
+        }
+
+        .close-button {
+          right: inherit;
+          left: 10;
+        }
+
+        .description .controls {
+          flex-direction: row;
+        }
+
+        .description .controls button {
+          width: 40%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="close-button" data-onesignal-unique-label="close-button">
+      <svg
+        width="10"
+        height="10"
+        preserveAspectRatio="none"
+        viewBox="0 0 8 8"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7.80309 1.14768C8.06564 0.885137 8.06564 0.459453 7.80309 0.196909C7.54055 -0.0656362 7.11486 -0.0656362 6.85232 0.196909L4 3.04923L1.14768 0.196909C0.885137 -0.0656362 0.459453 -0.0656362 0.196909 0.196909C-0.0656362 0.459453 -0.0656362 0.885137 0.196909 1.14768L3.04923 4L0.196909 6.85232C-0.0656362 7.11486 -0.0656362 7.54055 0.196909 7.80309C0.459453 8.06564 0.885137 8.06564 1.14768 7.80309L4 4.95077L6.85232 7.80309C7.11486 8.06564 7.54055 8.06564 7.80309 7.80309C8.06564 7.54055 8.06564 7.11486 7.80309 6.85232L4.95077 4L7.80309 1.14768Z"
+          fill="#111111"
+        />
+      </svg>
+    </div>
+    <div class="flex-container">
+      <div
+        class="video-container"
+        data-onesignal-unique-label="video-container"
+      >
+        <!-- Youtube Video Embed -->
+        <video
+          data-yt2html5="https://www.youtube.com/watch?v=ScMzIvxBSi4"
+          controls
+        ></video>
+      </div>
+      <div class="description">
+        <h1>Last minute<br />ticket alert</h1>
+        <h2>Limited seats available.<br />Get it now or never!</h2>
+        <div class="controls">
+          <button
+            class="not-now-button"
+            data-onesignal-unique-label="not-now-button"
+          >
+            Not Now
+          </button>
+          <button
+            class="get-tickets-button"
+            data-onesignal-unique-label="get-tickets-button"
+          >
+            <a href="https://www.w3schools.com">Get Tickets</a>
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.addEventListener("load", (event) => {
+        document
+          .querySelector(".close-button")
+          .addEventListener("click", function (e) {
+            OneSignalIamApi.close(e);
+          });
+
+        document
+          .querySelector(".not-now-button")
+          .addEventListener("click", function (e) {
+            OneSignalIamApi.close(e);
+          });
+
+        new YouTubeToHtml5({
+          selector: ".youtube-video",
+          attribute: "data-yt",
+        });
+      });
+    </script>
+  </body>
+</html>
