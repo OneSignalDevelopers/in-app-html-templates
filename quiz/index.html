@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Onesignal In-App Message</title>
+    <style>
+
+      body {
+        margin: 0;
+        padding-top: var(--safe-area-inset-top);
+        padding-right: var(--safe-area-inset-right);
+        padding-bottom: calc(var(--safe-area-inset-bottom) + 20px);
+        padding-left: var(--safe-area-inset-left);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        display: flex;
+        align-items: center;
+      }
+
+      .center-modal {
+        position: relative;
+        background: #FFF;
+        margin: 18px;
+        padding: 24px;
+        border-radius: 8px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height:80%;
+        width: 100%;
+        box-shadow: rgb(0 0 0 / 30%) 0px 0px 12.5px, rgb(0 0 0 / 15%) 0px 0px 2.5px;
+      }
+
+      .center-modal .close-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0);
+        border: none;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        /* Tip: Make your close-button relatively large so it's easy to click */
+        min-width: 48px;
+        min-height: 48px;
+      }
+
+
+      .center-modal h1 {
+        margin: 0px;
+        margin-bottom: 12px;
+        color: #222;
+        font-size: 24;
+        font-style: normal;
+        font-weight: normal;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      .center-modal button {
+        font-size: 16px;
+        color: #fff;
+        background-color: #1F8FEB;
+        width: 100%;
+        padding: 12px;
+        border-radius: 4px;
+        border: none;
+        margin-bottom: 12px;
+      }
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      @media screen and (min-width: 480px) {
+        .button-container {
+          flex-direction: row;
+          grid-gap: 12px;
+          width: 100%;
+        }
+
+        .button-column {
+          width: 50%;
+        }
+
+        .center-modal {
+          height: 80%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="center-modal">
+      <div class="close-button" data-onesignal-unique-label="close-button">
+        <svg
+          width="10"
+          height="10"
+          preserveAspectRatio="none"
+          viewBox="0 0 8 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7.80309 1.14768C8.06564 0.885137 8.06564 0.459453 7.80309 0.196909C7.54055 -0.0656362 7.11486 -0.0656362 6.85232 0.196909L4 3.04923L1.14768 0.196909C0.885137 -0.0656362 0.459453 -0.0656362 0.196909 0.196909C-0.0656362 0.459453 -0.0656362 0.885137 0.196909 1.14768L3.04923 4L0.196909 6.85232C-0.0656362 7.11486 -0.0656362 7.54055 0.196909 7.80309C0.459453 8.06564 0.885137 8.06564 1.14768 7.80309L4 4.95077L6.85232 7.80309C7.11486 8.06564 7.54055 8.06564 7.80309 7.80309C8.06564 7.54055 8.06564 7.11486 7.80309 6.85232L4.95077 4L7.80309 1.14768Z"
+            fill="#111111"
+          />
+        </svg>
+      </div>
+
+      <!-- Add notification details below -->
+
+      <div id="quiz">
+        <h1>Quiz Time!</h1>
+        <h3>Score 100%, and get 50% off</h3>
+
+        <hr style="margin-bottom: 20px" />
+
+        <p id="question"></p>
+
+        <div class="button-grp">
+  <button id="btn0">
+    <span id="choice0"></span>
+  </button>
+  <button id="btn1">
+    <span id="choice1"></span>
+  </button>
+  <button id="btn2">
+    <span id="choice2"></span>
+  </button>
+  <button id="btn3">
+    <span id="choice3"></span>
+  </button>
+</div>
+
+        <hr style="margin-top: 40px" />
+
+        <footer>
+          <p id="Qnumber">Question x of y</p>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+class Quiz {
+  constructor(questions) {
+    this.score = 0;
+    this.questions = questions;
+    this.questionIndex = 0;
+  }
+
+  isEnded() {
+    return this.questions.length === this.questionIndex;
+  }
+
+  getQuestionIndex() {
+    return this.questions[this.questionIndex];
+  }
+
+  guess(answer) {
+    if (this.getQuestionIndex().correctAnswer(answer)) {
+      this.score++;
+    }
+    this.questionIndex++;
+  }
+}
+
+class Question {
+  constructor(text, choices, answer) {
+    this.text = text;
+    this.choices = choices;
+    this.answer = answer;
+  }
+
+  correctAnswer(choice) {
+    return choice === this.answer;
+  }
+}
+
+function populate() {
+  if (quiz.isEnded()) {
+    showScores();
+    return;
+  }
+
+  const questionElement = document.getElementById('question');
+  questionElement.textContent = quiz.getQuestionIndex().text;
+
+  // Show choices
+  const choices = quiz.getQuestionIndex().choices;
+  for (let i = 0; i < choices.length; i++) {
+    const choiceElement = document.getElementById(`choice${i}`);
+    choiceElement.textContent = choices[i];
+
+    guess(`btn${i}`, choices[i]);
+  }
+
+  showQnumber();
+}
+
+function guess(id, guess) {
+  const button = document.getElementById(id);
+  button.onclick = function () {
+    quiz.guess(guess);
+    populate();
+  };
+}
+
+function showQnumber() {
+  const currentQuestionNumber = quiz.questionIndex + 1;
+  const element = document.getElementById('Qnumber');
+  element.innerHTML = `Questions ${currentQuestionNumber} of ${quiz.questions.length}`;
+}
+
+function showScores() {
+  const gameOverHTML = "<h1>Result</h1>";
+  const scoreHTML = `<h2 id='score'> Here's Your final Score: ${quiz.score}/${quiz.questions.length}</h2>`;
+  const element = document.getElementById('quiz');
+  element.innerHTML = gameOverHTML + scoreHTML;
+}
+
+// First set the questions, then set 4 potential answers for each question, lastly set the correct answer on the last column.
+const questions = [
+  new Question('Question 1?', ['Answer1', 'Answer2', 'Correct Answer', 'Answer4'], 'Correct Answer'),
+  new Question('Question 2?', ['Answer1', 'Correct Answer', 'Answer3', 'Answer4'], 'Correct Answer'),
+  new Question('Question 3?', ['Answer1', 'Answer2', 'Answer3', 'Correct Answer'], 'Correct Answer'),
+  new Question('Question 4?', ['Correct Answer', 'Answer2', 'Answer3', 'Answer4'], 'Correct Answer'),
+];
+
+const quiz = new Quiz(questions);
+
+populate();
+
+//tags user with their score once they close the in-app notification
+document.querySelector('.close-button').addEventListener('click', function (e) {
+  OneSignalIamApi.tagUser(e, { score: quiz.score });
+  OneSignalIamApi.close(e);
+});
+
+    </script>
+  </body>
+</html>
