@@ -1,4 +1,4 @@
-##Countdown (offer) Template
+## Countdown (offer) Template
 
 The countdown template enables you to notify users how long they have until an offer expires. This feature not only serves as a convenience, but it can increase registrations/sales due to the fear of missing out. The template is simple to use as you'll only need to provide the date to which the offer expires, then update any necessary messaging details.
 
