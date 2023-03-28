@@ -30,14 +30,15 @@ For more information of how html in-apps work see our [advanced usage doc](./adv
 
 <img alt="Check List Survey" src="./check_list_survey/readme_assets/checklist_survey_iam.gif" width="200px">
 
+###### [Countdown](./limited_time_offer)
+<img alt="Check Countdown" src="./limited_time_offer/limited_time_offer_assets/count-down.gif" width="200px">
+
 ###### [Audio Player](./audio_player)
 <img alt="Check Audio Player" src="./audio_player/audio_player_assets/UI.png" width="200px">
 
 ###### [Quiz](./quiz)
 <img alt="Check Quiz" src="./quiz/quiz_assets/quiz.gif" width="200px">
 
-###### [Countdown](./limited_time_offer)
-<img alt="Check Countdown" src="./limited_time_offer/limited_time_offer_assets/count_down.gif" width="200px">
 
 
 ## Show Your Support
