@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
     <head>
@@ -185,8 +184,11 @@
                         </form>
                         <br />
                     </div>
+                    <!-- For debugging, delete when done -->
+                    <pre id="console"></pre>
                 </div>
 
+                <pre id="console"></pre>
                 <script>
                     window.addEventListener("load", () => {
                         document
@@ -197,54 +199,58 @@
                         //     .addEventListener("click", trackClick);
 
                         function updatePreferences(event) {
-                          event.preventDefault();
-                            const marketingPush = document.querySelector(
-                                "#marketing-push",
-                            ).checked
-                                ? OneSignalIamApi.tagUser(event, {
-                                      marketing_push: "true",
-                                  })
-                                : OneSignalIamApi.tagUser(event, {
-                                      marketing_push: "false",
-                                  });
+                            event.preventDefault();
 
-                            document.querySelector("#marketing-sms").checked
-                                ? OneSignalIamApi.tagUser(event, {
-                                      marketing_sms: "true",
-                                  })
-                                : OneSignalIamApi.tagUser(event, {
-                                      marketing_sms: "false",
-                                  });
-                            document.querySelector("#marketing-email").checked
-                                ? OneSignalIamApi.tagUser(event, {
-                                      marketing_email: "true",
-                                  })
-                                : OneSignalIamApi.tagUser(event, {
-                                      marketing_email: "false",
-                                  });
-                            document.querySelector("#important-push").checked
-                                ? OneSignalIamApi.tagUser(event, {
-                                      important_push: "true",
-                                  })
-                                : OneSignalIamApi.tagUser(event, {
-                                      important_push: "false",
-                                  });
-                            document.querySelector("#important-email").checked
-                                ? OneSignalIamApi.tagUser(event, {
-                                      important_email: "true",
-                                  })
-                                : OneSignalIamApi.tagUser(event, {
-                                      important_email: "false",
-                                  });
-                            document.querySelector("#important-sms").checked
-                                ? OneSignalIamApi.tagUser(event, {
-                                      important_sms: "true",
-                                  })
-                                : OneSignalIamApi.tagUser(event, {
-                                      important_sms: "false",
-                                  });
+                            const marketingPush =
+                                document.querySelector("#marketing-push")
+                                    .checked || false;
+                            const marketingSms =
+                                document.querySelector("#marketing-sms")
+                                    .checked || false;
+                            const marketingEmail =
+                                document.querySelector("#marketing-email")
+                                    .checked || false;
+                            const importantPush =
+                                document.querySelector("#important-push")
+                                    .checked || false;
+                            const importantEmail =
+                                document.querySelector("#important-email")
+                                    .checked || false;
+                            const importantSms =
+                                document.querySelector("#important-sms")
+                                    .checked || false;
 
-                            OneSignalIamApi.close(event);
+                            document.querySelector("#console").textContent =
+                                JSON.stringify({
+                                    marketingPush,
+                                    marketingSms,
+                                    marketingEmail,
+                                    importantPusah,
+                                    importantEmail,
+                                    importantSms,
+                                });
+
+                            OneSignalIamApi.tagUser(event, {
+                                marketing_push: `${marketingPush}`,
+                            });
+                            OneSignalIamApi.tagUser(event, {
+                                marketing_sms: `${marketingSms}`,
+                            });
+                            OneSignalIamApi.tagUser(event, {
+                                marketing_email: `${marketingEmail}`,
+                            });
+                            OneSignalIamApi.tagUser(event, {
+                                important_sms: `${importantSms}`,
+                            });
+                            OneSignalIamApi.tagUser(event, {
+                                important_email: `${importantEmail}`,
+                            });
+                            OneSignalIamApi.tagUser(event, {
+                                important_push: `${importantPush}`,
+                            });
+
+                            // Hidden for debugging purposes
+                            // OneSignalIamApi.close(event);
                         }
 
                         function trackClick(event) {
@@ -256,5 +262,3 @@
         </html>
     </head>
 </html>
-
-
