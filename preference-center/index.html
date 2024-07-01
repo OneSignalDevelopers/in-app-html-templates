@@ -200,6 +200,8 @@
 
                         function updatePreferences(event) {
                             event.preventDefault();
+                            document.querySelector("#console").textContent =
+                                "Updating preferences...";
 
                             const marketingPush =
                                 document.querySelector("#marketing-push")
@@ -225,7 +227,7 @@
                                     marketingPush,
                                     marketingSms,
                                     marketingEmail,
-                                    importantPusah,
+                                    importantPush,
                                     importantEmail,
                                     importantSms,
                                 });
@@ -249,7 +251,10 @@
                                 important_push: `${importantPush}`,
                             });
 
-                            // Hidden for debugging purposes
+                            document.querySelector("#console").textContent =
+                                "Preferences updated";
+
+                            // Hidden for debugging purposes💩
                             // OneSignalIamApi.close(event);
                         }
 
