@@ -183,8 +183,6 @@
                         </div>
                     </div>
                     <br />
-                    <!-- For debugging, delete when done -->
-                    <pre id="console"></pre>
                 </div>
 
                 <pre id="console"></pre>
@@ -246,21 +244,7 @@
                                 important_push: `${importantPush}`,
                             });
 
-                            // For debugging purposes
-                            document.querySelector("#console").textContent =
-                                `Preferences updated: ${JSON.stringify(
-                                    {
-                                        marketingPush,
-                                        marketingSms,
-                                        marketingEmail,
-                                        importantPush,
-                                        importantEmail,
-                                        importantSms,
-                                    },
-                                    null,
-                                    2,
-                                )}`;
-                            // OneSignalIamApi.close(event);
+                            OneSignalIamApi.close(event);
                         }
 
                         function trackClick(event) {
