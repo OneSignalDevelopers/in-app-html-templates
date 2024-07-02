@@ -14,45 +14,45 @@ For more information on how to build HTML In-App Messages view our [documentatio
 
 For more information of how html in-apps work see our [advanced usage doc](./advanced-usage.md)
 
-###### SMS & Email Leads
+### SMS & Email Leads
 
 [Source code](./leads/README.md)
 
 <img alt="Leads" src="./leads/readme_assets/sms_email_form.gif" width="200px">
 
-###### Ranked Survey
+### Ranked Survey
 
 [Source code](./ranking_survey)
 
 <img alt="Survey" src="./ranking_survey/readme_assets/ranking_survey_iam.gif" width="200px">
 
-###### Promo Wheel
+### Promo Wheel
 
 [Source code](./promo_wheel)
 
 <img alt="Promo Wheel" src="./promo_wheel/readme_assets/promo_wheel_iam.gif" width="200px">
 
-###### Check List Survey
+### Check List Survey
 
 [Source code](./check_list_survey)
 
 <img alt="Check List Survey" src="./check_list_survey/readme_assets/checklist_survey_iam.gif" width="200px">
 
-###### User Preferences
+### User Preferences
 
 [Source code](./preference-center)
 
-###### Countdown
+### Countdown
 
 [Source code](./limited_time_offer)
 <img alt="Check Countdown" src="./limited_time_offer/limited_time_offer_assets/count-down.gif" width="200px">
 
-###### Audio Player
+### Audio Player
 
 [Source code](./audio_player)
 <img alt="Check Audio Player" src="./audio_player/audio_player_assets/UI.png" width="200px">
 
-###### Quiz
+### Quiz
 
 [Source code](./quiz)
 <img alt="Check Quiz" src="./quiz/quiz_assets/quiz.gif" width="200px">
