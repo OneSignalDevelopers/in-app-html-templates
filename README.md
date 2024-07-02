@@ -42,6 +42,22 @@ For more information of how html in-apps work see our [advanced usage doc](./adv
 
 [Source code](./preference-center)
 
+###### Countdown
+
+[Source code](./limited_time_offer)
+<img alt="Check Countdown" src="./limited_time_offer/limited_time_offer_assets/count-down.gif" width="200px">
+
+###### Audio Player
+
+[Source code](./audio_player)
+<img alt="Check Audio Player" src="./audio_player/audio_player_assets/UI.png" width="200px">
+
+###### Quiz
+
+[Source code](./quiz)
+<img alt="Check Quiz" src="./quiz/quiz_assets/quiz.gif" width="200px">
+
+
 ## Show Your Support
 
 Give a :star:️ if this project helped you!
@@ -53,4 +69,3 @@ The [OneSignal Developer Community](https://onesignal.com/onesignal-developers) 
 - Twitter: [@OneSignalDevs](https://twitter.com/onesignal)
 - Github: [@OneSignalDevelopers](https://github.com/OneSignal)
 - Discord: [@onesignal-metabase](https://linkedin.com/company/onesignal)
-
