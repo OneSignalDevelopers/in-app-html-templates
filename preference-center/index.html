@@ -193,9 +193,9 @@
                         document
                             .querySelector("#update-preferences-button")
                             .addEventListener("click", updatePreferences);
-                        // document
-                        //     .querySelector(".add-track-click")
-                        //     .addEventListener("click", trackClick);
+                        document
+                            .querySelector(".add-track-click")
+                            .addEventListener("click", trackClick);
 
                         async function updatePreferences(event) {
                             event.preventDefault();
@@ -227,40 +227,39 @@
                                     "#important-sms",
                                 ).checked;
 
-                            document.querySelector("#console").textContent =
-                                JSON.stringify({
-                                    marketingPush,
-                                    marketingSms,
-                                    marketingEmail,
-                                    importantPush,
-                                    importantEmail,
-                                    importantSms,
-                                });
+                            OneSignalIamApi.tagUser(event, {
+                                marketing_push: `${marketingPush}`,
+                            });
+                            OneSignalIamApi.tagUser(event, {
+                                marketing_sms: `${marketingSms}`,
+                            });
+                            OneSignalIamApi.tagUser(event, {
+                                marketing_email: `${marketingEmail}`,
+                            });
+                            OneSignalIamApi.tagUser(event, {
+                                important_sms: `${importantSms}`,
+                            });
+                            OneSignalIamApi.tagUser(event, {
+                                important_email: `${importantEmail}`,
+                            });
+                            OneSignalIamApi.tagUser(event, {
+                                important_push: `${importantPush}`,
+                            });
 
-                            const tagResults = await Promise.all([
-                                OneSignalIamApi.tagUser(event, {
-                                    marketing_push: `${marketingPush}`,
-                                }),
-                                OneSignalIamApi.tagUser(event, {
-                                    marketing_sms: `${marketingSms}`,
-                                }),
-                                OneSignalIamApi.tagUser(event, {
-                                    marketing_email: `${marketingEmail}`,
-                                }),
-                                OneSignalIamApi.tagUser(event, {
-                                    important_sms: `${importantSms}`,
-                                }),
-                                OneSignalIamApi.tagUser(event, {
-                                    important_email: `${importantEmail}`,
-                                }),
-                                OneSignalIamApi.tagUser(event, {
-                                    important_push: `${importantPush}`,
-                                }),
-                            ]);
-
+                            // For debugging purposes
                             document.querySelector("#console").textContent =
-                                `Preferences updated: ${JSON.stringify(tagResults, null, 2)}`;
-                            // Hidden for debugging purposes💩
+                                `Preferences updated: ${JSON.stringify(
+                                    {
+                                        marketingPush,
+                                        marketingSms,
+                                        marketingEmail,
+                                        importantPush,
+                                        importantEmail,
+                                        importantSms,
+                                    },
+                                    null,
+                                    2,
+                                )}`;
                             // OneSignalIamApi.close(event);
                         }
 
