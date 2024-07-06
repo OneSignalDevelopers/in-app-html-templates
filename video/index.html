@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Onesignal In-App Message</title>
+    <style>
+      body {
+        display: flex;
+        padding-top: 80%; /* Or whatever */
+        padding-bottom: 80%;
+      }
+
+      .center-modal {
+        position: relative;
+        background: #fff;
+        margin: 18px;
+        padding: 24px;
+        border-radius: 8px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 85%;
+        width: 100%;
+        box-shadow: rgb(0 0 0 / 30%) 0px 0px 12.5px,
+          rgb(0 0 0 / 15%) 0px 0px 2.5px;
+      }
+
+      .center-modal .close-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0);
+        border: none;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        /* Tip: Make your close-button relatively large so it's easy to click */
+        min-width: 48px;
+        min-height: 48px;
+      }
+
+      .center-modal img {
+        min-height: 10px;
+        margin-bottom: 12px;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .center-modal h1 {
+        margin: 0px;
+        margin-bottom: 12px;
+        color: #222;
+        font-size: 24;
+        font-style: normal;
+        font-weight: normal;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      .center-modal button {
+        font-size: 16px;
+        color: #fff;
+        background-color: #1f8feb;
+        width: 100%;
+        padding: 12px;
+        border-radius: 4px;
+        border: none;
+        margin-bottom: 12px;
+      }
+
+      .center-modal video {
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        z-index: 9;
+      }
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      @media screen and (min-width: 480px) {
+        .button-container {
+          flex-direction: row;
+          grid-gap: 12px;
+          width: 100%;
+        }
+
+        .button-column {
+          width: 50%;
+        }
+
+        .center-modal {
+          height: 80%;
+        }
+      }
+    </style>
+
+    <script>
+      var enableInlineVideo = (function () {
+        "use strict" /*! npm.im/intervalometer */
+
+        function e(e, i, n, r) {
+          function t(n) {
+            ;(d = i(t, r)), e(n - (a || n)), (a = n)
+          }
+          var d, a
+          return {
+            start: function () {
+              d || t(0)
+            },
+            stop: function () {
+              n(d), (d = null), (a = 0)
+            },
+          }
+        }
+        function i(i) {
+          return e(i, requestAnimationFrame, cancelAnimationFrame)
+        }
+        function n(e, i, n) {
+          function r(r) {
+            ;(n && !n(e, i)) || r.stopImmediatePropagation()
+          }
+          return e.addEventListener(i, r), r
+        }
+        function r(e, i, n, r) {
+          function t() {
+            return n[i]
+          }
+          function d(e) {
+            n[i] = e
+          }
+          r && d(e[i]), Object.defineProperty(e, i, { get: t, set: d })
+        }
+        function t(e, i, n) {
+          n.addEventListener(i, function () {
+            return e.dispatchEvent(new Event(i))
+          })
+        }
+        function d(e, i) {
+          Promise.resolve().then(function () {
+            e.dispatchEvent(new Event(i))
+          })
+        }
+        function a(e) {
+          var i = new Audio()
+          return (
+            t(e, "play", i),
+            t(e, "playing", i),
+            t(e, "pause", i),
+            (i.crossOrigin = e.crossOrigin),
+            (i.src = e.src || e.currentSrc || "data:"),
+            i
+          )
+        }
+        function u(e, i, n) {
+          ;(m || 0) + 200 < Date.now() && ((e[h] = !0), (m = Date.now())),
+            n || (e.currentTime = i),
+            (k[++T % 3] = (100 * i) | 0)
+        }
+        function o(e) {
+          return e.driver.currentTime >= e.video.duration
+        }
+        function s(e) {
+          var i = this
+          i.video.readyState >= i.video.HAVE_FUTURE_DATA
+            ? (i.hasAudio ||
+                ((i.driver.currentTime =
+                  i.video.currentTime + (e * i.video.playbackRate) / 1e3),
+                i.video.loop && o(i) && (i.driver.currentTime = 0)),
+              u(i.video, i.driver.currentTime))
+            : i.video.networkState === i.video.NETWORK_IDLE &&
+              0 === i.video.buffered.length &&
+              i.video.load(),
+            i.video.ended && (delete i.video[h], i.video.pause(!0))
+        }
+        function c() {
+          var e = this,
+            i = e[g]
+          if (e.webkitDisplayingFullscreen) return void e[E]()
+          "data:" !== i.driver.src &&
+            i.driver.src !== e.src &&
+            (u(e, 0, !0), (i.driver.src = e.src)),
+            e.paused &&
+              ((i.paused = !1),
+              0 === e.buffered.length && e.load(),
+              i.driver.play(),
+              i.updater.start(),
+              i.hasAudio ||
+                (d(e, "play"),
+                i.video.readyState >= i.video.HAVE_ENOUGH_DATA &&
+                  d(e, "playing")))
+        }
+        function v(e) {
+          var i = this,
+            n = i[g]
+          n.driver.pause(),
+            n.updater.stop(),
+            i.webkitDisplayingFullscreen && i[w](),
+            (n.paused && !e) ||
+              ((n.paused = !0),
+              n.hasAudio || d(i, "pause"),
+              i.ended &&
+                !i.webkitDisplayingFullscreen &&
+                ((i[h] = !0), d(i, "ended")))
+        }
+        function p(e, n) {
+          var r = {}
+          ;(e[g] = r),
+            (r.paused = !0),
+            (r.hasAudio = n),
+            (r.video = e),
+            (r.updater = i(s.bind(r))),
+            n
+              ? (r.driver = a(e))
+              : (e.addEventListener("canplay", function () {
+                  e.paused || d(e, "playing")
+                }),
+                (r.driver = {
+                  src: e.src || e.currentSrc || "data:",
+                  muted: !0,
+                  paused: !0,
+                  pause: function () {
+                    r.driver.paused = !0
+                  },
+                  play: function () {
+                    ;(r.driver.paused = !1), o(r) && u(e, 0)
+                  },
+                  get ended() {
+                    return o(r)
+                  },
+                })),
+            e.addEventListener(
+              "emptied",
+              function () {
+                var i = !r.driver.src || "data:" === r.driver.src
+                r.driver.src &&
+                  r.driver.src !== e.src &&
+                  (u(e, 0, !0),
+                  (r.driver.src = e.src),
+                  i || (!n && e.autoplay) ? r.driver.play() : r.updater.stop())
+              },
+              !1
+            ),
+            e.addEventListener("webkitbeginfullscreen", function () {
+              e.paused
+                ? n && 0 === r.driver.buffered.length && r.driver.load()
+                : (e.pause(), e[E]())
+            }),
+            n &&
+              (e.addEventListener("webkitendfullscreen", function () {
+                r.driver.currentTime = e.currentTime
+              }),
+              e.addEventListener("seeking", function () {
+                k.indexOf((100 * e.currentTime) | 0) < 0 &&
+                  (r.driver.currentTime = e.currentTime)
+              }))
+        }
+        function l(e) {
+          var i = e[h]
+          return delete e[h], !e.webkitDisplayingFullscreen && !i
+        }
+        function f(e) {
+          var i = e[g]
+          ;(e[E] = e.play),
+            (e[w] = e.pause),
+            (e.play = c),
+            (e.pause = v),
+            r(e, "paused", i.driver),
+            r(e, "muted", i.driver, !0),
+            r(e, "playbackRate", i.driver, !0),
+            r(e, "ended", i.driver),
+            r(e, "loop", i.driver, !0),
+            n(e, "seeking", function (e) {
+              return !e.webkitDisplayingFullscreen
+            }),
+            n(e, "seeked", function (e) {
+              return !e.webkitDisplayingFullscreen
+            }),
+            n(e, "timeupdate", l),
+            n(e, "ended", l)
+        }
+        function y(e, i) {
+          if ((void 0 === i && (i = {}), !e[g])) {
+            if (!i.everywhere) {
+              if (!b) return
+              if (
+                !(i.iPad || i.ipad ? /iPhone|iPod|iPad/ : /iPhone|iPod/).test(
+                  navigator.userAgent
+                )
+              )
+                return
+            }
+            e.pause()
+            var n = e.autoplay
+            ;(e.autoplay = !1),
+              p(e, !e.muted),
+              f(e),
+              e.classList.add("IIV"),
+              e.muted &&
+                n &&
+                (e.play(),
+                e.addEventListener("playing", function i() {
+                  ;(e.autoplay = !0), e.removeEventListener("playing", i)
+                })),
+              /iPhone|iPod|iPad/.test(navigator.platform) ||
+                console.warn(
+                  "iphone-inline-video is not guaranteed to work in emulated environments"
+                )
+          }
+        }
+        var m,
+          b =
+            "object" == typeof document &&
+            "object-fit" in document.head.style &&
+            !matchMedia("(-webkit-video-playable-inline)").matches,
+          g = "fregante:iphone-inline-video",
+          h = "fregante:iphone-inline-video:event",
+          E = "fregante:iphone-inline-video:nativeplay",
+          w = "fregante:iphone-inline-video:nativepause",
+          k = [],
+          T = 0
+        return y
+      })()
+
+      function sendAnalyticsEvent(id, category, label, action) {
+        var url = ANALYTICS_BASE_URL
+        url = url.replace("{ID}", id)
+        url = url.replace("{CATEGORY}", category)
+        url = url.replace("{LABEL}", label)
+        url = url.replace("{ACTION}", action)
+        url = url.replace("{RANDOM}", getRandomNumber())
+        url = url.replace("{AGENT}", navigator.userAgent)
+        document.querySelector("body").append(createImageTag(url))
+      }
+
+      function createImageTag(sourceUrl) {
+        var image = document.createElement("IMG")
+        image.src = encodeURI(sourceUrl)
+        return image
+      }
+
+      function getRandomNumber() {
+        return Math.floor(Math.random() * 100000)
+      }
+
+      window.addEventListener("DOMContentLoaded", (event) => {
+        // AUTOPLAY VIDEO FOR IPHONE
+        try {
+          var video = document.querySelector("video")
+          if (video !== null) {
+            enableInlineVideo(video)
+          }
+        } catch (e) {}
+      })
+    </script>
+  </head>
+  <body>
+    <div class="center-modal">
+      <div class="close-button" data-onesignal-unique-label="close-button">
+        <svg
+          width="10"
+          height="10"
+          preserveAspectRatio="none"
+          viewBox="0 0 8 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7.80309 1.14768C8.06564 0.885137 8.06564 0.459453 7.80309 0.196909C7.54055 -0.0656362 7.11486 -0.0656362 6.85232 0.196909L4 3.04923L1.14768 0.196909C0.885137 -0.0656362 0.459453 -0.0656362 0.196909 0.196909C-0.0656362 0.459453 -0.0656362 0.885137 0.196909 1.14768L3.04923 4L0.196909 6.85232C-0.0656362 7.11486 -0.0656362 7.54055 0.196909 7.80309C0.459453 8.06564 0.885137 8.06564 1.14768 7.80309L4 4.95077L6.85232 7.80309C7.11486 8.06564 7.54055 8.06564 7.80309 7.80309C8.06564 7.54055 8.06564 7.11486 7.80309 6.85232L4.95077 4L7.80309 1.14768Z"
+            fill="#111111"
+          />
+        </svg>
+      </div>
+
+      <video
+        id="video_1"
+        width="100%"
+        loop
+        muted
+        playsinline
+        webkit-playsinline
+        preload="auto"
+        autoplay="autoplay"
+      >
+        <source
+          src="https://media.onesignal.com/iam/os-intro-outro.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+    <script>
+      // Your code here
+      document.querySelector(".close-button").onclick = (e) => {
+        OneSignalIamApi.close(e)
+      }
+    </script>
+  </body>
+</html>
